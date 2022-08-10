@@ -32,13 +32,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         gameThread = new Thread(this);
         gameThread.start();
-
     }
     public void newBall(){
         random = new Random();
-
         ball = new Ball((GAME_WIDTH/2)-(BALL_DIAMETER/2),random.nextInt(GAME_HEIGHT-BALL_DIAMETER),BALL_DIAMETER,BALL_DIAMETER);
-
     }
     public void newPaddles(){
         paddle1 = new Paddle(0,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,1);
@@ -101,13 +98,11 @@ public class GamePanel extends JPanel implements Runnable {
             score.player2++;
             newPaddles();
             newBall();
-            System.out.println(score.player2);
         }
         if(ball.x >= GAME_WIDTH-BALL_DIAMETER){
             score.player1++;
             newPaddles();
             newBall();
-            System.out.println(score.player1);
         }
     }
     public void run(){
