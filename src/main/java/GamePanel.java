@@ -58,41 +58,54 @@ public class GamePanel extends JPanel implements Runnable {
         paddle2.move();
         ball.move();
     }
-    public void checkCollision(){
+    public void checkCollision() {
+        paddleCollision();
+        ballCollisionWithBorders();
+        ballCollisionWithPaddles();
+        ballOutOfBounds();
+    }
+    public void paddleCollision(){
         //stops paddles on window borders
-        if(paddle1.y <= 0)
+        if (paddle1.y <= 0)
             paddle1.y = 0;
-        if(paddle1.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
+        if (paddle1.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
             paddle1.y = GAME_HEIGHT - PADDLE_HEIGHT;
-        if(paddle2.y <= 0)
+        if (paddle2.y <= 0)
             paddle2.y = 0;
-        if(paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
+        if (paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
             paddle2.y = GAME_HEIGHT - PADDLE_HEIGHT;
-
+    }
+    public void ballCollisionWithBorders() {
         //ball collision with window upper and lower borders
-        if(ball.y <= 0 || ball.y >= GAME_HEIGHT-BALL_DIAMETER)
+        if (ball.y <= 0 || ball.y >= GAME_HEIGHT - BALL_DIAMETER)
             ball.setYDirection(-ball.yVelocity);
+    }
+    public void ballCollisionWithPaddles(){
         //ball collision with paddles
-        if(ball.intersects(paddle1)){
+        if (ball.intersects(paddle1)) {
             ball.xVelocity = Math.abs(ball.xVelocity);
             ball.xVelocity++;
-            if(ball.yVelocity>0)
+            paddle1.speed++;
+            if (ball.yVelocity > 0)
                 ball.yVelocity++;
             else
                 ball.yVelocity--;
             ball.setXDirection(ball.xVelocity);
             ball.setYDirection(ball.yVelocity);
         }
-        if(ball.intersects(paddle2)){
+        if (ball.intersects(paddle2)) {
             ball.xVelocity = Math.abs(ball.xVelocity);
             ball.xVelocity++;
-            if(ball.yVelocity>0)
+            paddle2.speed++;
+            if (ball.yVelocity > 0)
                 ball.yVelocity++;
             else
                 ball.yVelocity--;
             ball.setXDirection(-ball.xVelocity);
             ball.setYDirection(ball.yVelocity);
         }
+    }
+    public void ballOutOfBounds(){
         //scoring
         if(ball.x <= 0) {
             score.player2++;
