@@ -16,8 +16,8 @@ public class GamePanel extends JPanel implements Runnable {
     Image image;
     Graphics graphics;
     Random random;
-    Paddle paddle1;
-    Paddle paddle2;
+    Paddle paddleLeft;
+    Paddle paddleRight;
     Ball ball;
     Score score;
 
@@ -38,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
         ball = new Ball((GAME_WIDTH/2)-(BALL_DIAMETER/2),random.nextInt(GAME_HEIGHT-BALL_DIAMETER),BALL_DIAMETER,BALL_DIAMETER);
     }
     public void newPaddles(){
-        paddle1 = new Paddle(0,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,1);
-        paddle2 = new Paddle(GAME_WIDTH-PADDLE_WIDTH,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,2);
+        paddleLeft = new Paddle(0,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,1);
+        paddleRight = new Paddle(GAME_WIDTH-PADDLE_WIDTH,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,2);
     }
     public void paint(Graphics g){
         image = createImage(getWidth(),getHeight());
@@ -48,14 +48,14 @@ public class GamePanel extends JPanel implements Runnable {
         g.drawImage(image,0,0,this);
     }
     public void draw(Graphics g){
-        paddle1.draw(g);
-        paddle2.draw(g);
+        paddleLeft.draw(g);
+        paddleRight.draw(g);
         ball.draw(g);
         score.draw(g);
     }
     public void move(){
-        paddle1.move();
-        paddle2.move();
+        paddleLeft.move();
+        paddleRight.move();
         ball.move();
     }
     public void checkCollision() {
@@ -66,14 +66,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void paddleCollision(){
         //stops paddles on window borders
-        if (paddle1.y <= 0)
-            paddle1.y = 0;
-        if (paddle1.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
-            paddle1.y = GAME_HEIGHT - PADDLE_HEIGHT;
-        if (paddle2.y <= 0)
-            paddle2.y = 0;
-        if (paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
-            paddle2.y = GAME_HEIGHT - PADDLE_HEIGHT;
+        if (paddleLeft.y <= 0)
+            paddleLeft.y = 0;
+        if (paddleLeft.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
+            paddleLeft.y = GAME_HEIGHT - PADDLE_HEIGHT;
+        if (paddleRight.y <= 0)
+            paddleRight.y = 0;
+        if (paddleRight.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
+            paddleRight.y = GAME_HEIGHT - PADDLE_HEIGHT;
     }
     public void ballCollisionWithBorders() {
         //ball collision with window upper and lower borders
@@ -82,10 +82,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void ballCollisionWithPaddles(){
         //ball collision with paddles
-        if (ball.intersects(paddle1)) {
+        if (ball.intersects(paddleLeft)) {
             ball.xVelocity = Math.abs(ball.xVelocity);
             ball.xVelocity++;
-            paddle1.speed++;
+            paddleLeft.paddleSpeed++;
             if (ball.yVelocity > 0)
                 ball.yVelocity++;
             else
@@ -93,10 +93,10 @@ public class GamePanel extends JPanel implements Runnable {
             ball.setXDirection(ball.xVelocity);
             ball.setYDirection(ball.yVelocity);
         }
-        if (ball.intersects(paddle2)) {
+        if (ball.intersects(paddleRight)) {
             ball.xVelocity = Math.abs(ball.xVelocity);
             ball.xVelocity++;
-            paddle2.speed++;
+            paddleRight.paddleSpeed++;
             if (ball.yVelocity > 0)
                 ball.yVelocity++;
             else
@@ -108,12 +108,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void ballOutOfBounds(){
         //scoring
         if(ball.x <= 0) {
-            score.player2++;
+            score.player2Score++;
             newPaddles();
             newBall();
         }
         if(ball.x >= GAME_WIDTH-BALL_DIAMETER){
-            score.player1++;
+            score.player1Score++;
             newPaddles();
             newBall();
         }
@@ -138,12 +138,12 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public class AL extends KeyAdapter{
         public void keyPressed(KeyEvent e){
-            paddle1.keyPressed(e);
-            paddle2.keyPressed(e);
+            paddleLeft.keyPressed(e);
+            paddleRight.keyPressed(e);
         }
         public void keyReleased(KeyEvent e){
-            paddle1.keyReleased(e);
-            paddle2.keyReleased(e);
+            paddleLeft.keyReleased(e);
+            paddleRight.keyReleased(e);
         }
     }
 }

@@ -3,40 +3,40 @@ import java.awt.event.KeyEvent;
 
 public class Paddle extends Rectangle{
 
-    int id;
+    int whichPaddle;
     int yVelocity;
-    int speed = 10;
+    int paddleSpeed = 10;
 
-    Paddle(int x, int y, int PADDLE_WIDTH, int PADDLE_HEIGHT, int id){
+    Paddle(int x, int y, int PADDLE_WIDTH, int PADDLE_HEIGHT, int whichPaddle){
         super(x,y,PADDLE_WIDTH,PADDLE_HEIGHT);
-        this.id = id;
+        this.whichPaddle = whichPaddle;
     }
     public void keyPressed(KeyEvent e){
-        switch(id){
+        switch(whichPaddle){
             case 1:
                 if(e.getKeyCode()==KeyEvent.VK_W){
-                    setYDirection(-speed);
+                    setYDirection(-paddleSpeed);
                     move();
                 }
                 if(e.getKeyCode()==KeyEvent.VK_S){
-                    setYDirection(speed);
+                    setYDirection(paddleSpeed);
                     move();
                 }
                 break;
             case 2:
                 if(e.getKeyCode()==KeyEvent.VK_UP){
-                    setYDirection(-speed);
+                    setYDirection(-paddleSpeed);
                     move();
                 }
                 if(e.getKeyCode()==KeyEvent.VK_DOWN){
-                    setYDirection(speed);
+                    setYDirection(paddleSpeed);
                     move();
                 }
                 break;
         }
     }
     public void keyReleased(KeyEvent e){
-        switch(id){
+        switch(whichPaddle){
             case 1:
                 if(e.getKeyCode()==KeyEvent.VK_W){
                     setYDirection(0);
@@ -66,7 +66,7 @@ public class Paddle extends Rectangle{
         y = y + yVelocity;
     }
     public void draw(Graphics g){
-        if(id==1)
+        if(whichPaddle ==1)
             g.setColor(Color.BLUE);
         else
             g.setColor(Color.RED);
